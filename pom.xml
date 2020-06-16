@@ -18,14 +18,6 @@
     <quarkus.platform.version>1.5.0.Final</quarkus.platform.version>
     <surefire-plugin.version>2.22.1</surefire-plugin.version>
   </properties>
-  	<repositories>
-		<repository>
-			<id>file</id>
-			<name>Corporate Repository</name>
-			<url>file:./repo</url>
-			<layout>default</layout>
-		</repository>
-	</repositories>
   <dependencyManagement>
     <dependencies>
       <dependency>
@@ -60,11 +52,6 @@
       <groupId>io.quarkus</groupId>
       <artifactId>quarkus-smallrye-openapi</artifactId>
     </dependency>
-		<dependency>
-			<groupId>model</groupId>
-			<artifactId>xom</artifactId>
-			<version>1.0.0</version>
-		</dependency>
   </dependencies>
   <build>
     <plugins>

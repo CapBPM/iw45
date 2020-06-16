@@ -159,7 +159,7 @@ modules.xml
 
 ### Java ###
 # Compiled class file
-*.class
+*.class1
 
 # Log file
 *.log
