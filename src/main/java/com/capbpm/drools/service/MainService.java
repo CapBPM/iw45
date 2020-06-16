@@ -1,6 +1,7 @@
 package com.capbpm.drools.service;
 
 import java.io.InputStreamReader;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
@@ -21,7 +22,7 @@ import org.kie.api.runtime.KieSession;
 import org.kie.api.runtime.rule.FactHandle;
 import org.kie.internal.io.ResourceFactory;
 
-import com.capbpm.drools.model.MedicationAdministrationOrder;
+import com.davita.protocol.*;
 
 public class MainService {
 
@@ -38,14 +39,17 @@ public class MainService {
 
     private Map<String, KieContainer> containers = new HashMap<>();
 
-    public MedicationAdministrationOrder calculate(MedicationAdministrationOrder activeMedicationOrder) {
+    ProtocolDecisionResponse response = new ProtocolDecisionResponse();
+    
+    public ProtocolDecisionResponse calculate(ProtocolDecisionRequest req) {
 		ScriptEngine js = new ScriptEngineManager().getEngineByName("javascript");
 		
 		Bindings bindings = new SimpleBindings();
-		bindings.put("activeMedicationOrder", activeMedicationOrder);
+		bindings.put("req", req);
 		js.setBindings(bindings, ScriptContext.ENGINE_SCOPE);
 		
 		try {
+			initialize(req);
 			js.eval(
 				new InputStreamReader(
 					this.getClass().getClassLoader()
@@ -61,51 +65,51 @@ public class MainService {
 			e.printStackTrace();
 		}
 		
-        return _e506f517_8d33_4893_bf73_5b79f0a95c6a(activeMedicationOrder);
+        return _e506f517_8d33_4893_bf73_5b79f0a95c6a(req);
     }
 
-	private MedicationAdministrationOrder _e506f517_8d33_4893_bf73_5b79f0a95c6a(MedicationAdministrationOrder activeMedicationOrder) {
-		if( isTrue("PatientExtender.hasProtocolOrderTrue(request.patient, OIDConceptCodeType._932c22d6_5868_286d_566c_c9cbaef89b2b, HealthcareOrderStatusType._2_16_840_1_113883_3_2390_2_2_190_1_DVA2)", new HashMap<>() {{put("activeMedicationOrder", activeMedicationOrder);}}) ){
-			return Main_Initialization_55338c4e_e6a8_442c_bcfd_8b30b82b83ad(activeMedicationOrder);
-		} else if( isTrue("", new HashMap<>() {{put("activeMedicationOrder", activeMedicationOrder);}}) ){
-			return activeMedicationOrder;
+	private ProtocolDecisionResponse _e506f517_8d33_4893_bf73_5b79f0a95c6a(ProtocolDecisionRequest req) {
+		if( isTrue("PatientExtender.hasProtocolOrderTrue(request.patient, OIDConceptCodeType._932c22d6_5868_286d_566c_c9cbaef89b2b, HealthcareOrderStatusType._2_16_840_1_113883_3_2390_2_2_190_1_DVA2)", new HashMap<>() {{put("req", req);}}) ){
+			return Main_Initialization_55338c4e_e6a8_442c_bcfd_8b30b82b83ad(req);
+		} else if( isTrue("", new HashMap<>() {{put("req", req);}}) ){
+			return response;
 		}
-		return activeMedicationOrder;
+		return response;
 	}
-	private MedicationAdministrationOrder Main_Initialization_55338c4e_e6a8_442c_bcfd_8b30b82b83ad(MedicationAdministrationOrder activeMedicationOrder) {
+	private ProtocolDecisionResponse Main_Initialization_55338c4e_e6a8_442c_bcfd_8b30b82b83ad(ProtocolDecisionRequest activeMedicationOrder) {
         KieSession kieSession = containers.get("Main_Initialization_55338c4e_e6a8_442c_bcfd_8b30b82b83ad").newKieSession();
         FactHandle factHandle = kieSession.insert(activeMedicationOrder);
         kieSession.fireAllRules();
         kieSession.dispose();
-        return Main_Eligibility_bbe06995_5c54_4ade_9713_ebd39a746ed3((MedicationAdministrationOrder)kieSession.getObject(factHandle));
+        return Main_Eligibility_bbe06995_5c54_4ade_9713_ebd39a746ed3((ProtocolDecisionRequest)kieSession.getObject(factHandle));
 	}
-	private MedicationAdministrationOrder Main_Eligibility_bbe06995_5c54_4ade_9713_ebd39a746ed3(MedicationAdministrationOrder activeMedicationOrder) {
+	private ProtocolDecisionResponse Main_Eligibility_bbe06995_5c54_4ade_9713_ebd39a746ed3(ProtocolDecisionRequest activeMedicationOrder) {
         KieSession kieSession = containers.get("Main_Eligibility_bbe06995_5c54_4ade_9713_ebd39a746ed3").newKieSession();
         FactHandle factHandle = kieSession.insert(activeMedicationOrder);
         kieSession.fireAllRules();
         kieSession.dispose();
-        return Main_Orders_ce0ba550_7498_4503_ad72_065fe7294b21((MedicationAdministrationOrder)kieSession.getObject(factHandle));
+        return Main_Orders_ce0ba550_7498_4503_ad72_065fe7294b21((ProtocolDecisionRequest)kieSession.getObject(factHandle));
 	}
-	private MedicationAdministrationOrder Main_Orders_ce0ba550_7498_4503_ad72_065fe7294b21(MedicationAdministrationOrder activeMedicationOrder) {
+	private ProtocolDecisionResponse Main_Orders_ce0ba550_7498_4503_ad72_065fe7294b21(ProtocolDecisionRequest activeMedicationOrder) {
         KieSession kieSession = containers.get("Main_Orders_ce0ba550_7498_4503_ad72_065fe7294b21").newKieSession();
         FactHandle factHandle = kieSession.insert(activeMedicationOrder);
         kieSession.fireAllRules();
         kieSession.dispose();
-        return Main_Patient_Status_9ec9c6ca_a0fb_4716_99d6_efdfe98298f0((MedicationAdministrationOrder)kieSession.getObject(factHandle));
+        return Main_Patient_Status_9ec9c6ca_a0fb_4716_99d6_efdfe98298f0((ProtocolDecisionRequest)kieSession.getObject(factHandle));
 	}
-	private MedicationAdministrationOrder Main_Patient_Status_9ec9c6ca_a0fb_4716_99d6_efdfe98298f0(MedicationAdministrationOrder activeMedicationOrder) {
+	private ProtocolDecisionResponse Main_Patient_Status_9ec9c6ca_a0fb_4716_99d6_efdfe98298f0(ProtocolDecisionRequest activeMedicationOrder) {
         KieSession kieSession = containers.get("Main_Patient_Status_9ec9c6ca_a0fb_4716_99d6_efdfe98298f0").newKieSession();
         FactHandle factHandle = kieSession.insert(activeMedicationOrder);
         kieSession.fireAllRules();
         kieSession.dispose();
-        return Main_Final_Actions_0691b01b_85f7_4ad9_9810_2e58f1a173d7((MedicationAdministrationOrder)kieSession.getObject(factHandle));
+        return Main_Final_Actions_0691b01b_85f7_4ad9_9810_2e58f1a173d7((ProtocolDecisionRequest)kieSession.getObject(factHandle));
 	}
-	private MedicationAdministrationOrder Main_Final_Actions_0691b01b_85f7_4ad9_9810_2e58f1a173d7(MedicationAdministrationOrder activeMedicationOrder) {
+	private ProtocolDecisionResponse Main_Final_Actions_0691b01b_85f7_4ad9_9810_2e58f1a173d7(ProtocolDecisionRequest activeMedicationOrder) {
         KieSession kieSession = containers.get("Main_Final_Actions_0691b01b_85f7_4ad9_9810_2e58f1a173d7").newKieSession();
         FactHandle factHandle = kieSession.insert(activeMedicationOrder);
         kieSession.fireAllRules();
         kieSession.dispose();
-        return (MedicationAdministrationOrder)kieSession.getObject(factHandle);
+        return (ProtocolDecisionResponse)kieSession.getObject(factHandle);
 	}
 
     private void initKieContainer() {
@@ -145,5 +149,16 @@ public class MainService {
 		} catch (ScriptException e) {
 		}
         return Boolean.FALSE;
+    }
+    
+    private void initialize(ProtocolDecisionRequest request) {
+    	response.setAlerts(new ArrayList<>());
+    	response.setFacilityNumber(request.getFacilityNumber());
+    	response.setMasterPatientIdentifier(request.getMasterPatientIdentifier());
+    	response.setNotes(new ArrayList<>());
+    	response.setOptionalDisplayData("");
+    	response.setOptions(new ArrayList<>());
+    	response.setPerProtocolOrders(request.getPatient().getPerProtocolHistory());
+    	response.setProtocolOrderDueForReview(ReviewType.DFR);
     }
 }
