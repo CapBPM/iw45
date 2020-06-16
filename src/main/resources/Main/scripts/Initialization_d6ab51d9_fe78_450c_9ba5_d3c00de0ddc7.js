@@ -1,0 +1,1 @@
+    PatientExtender.initializeCurrentStatus(request.patient);
